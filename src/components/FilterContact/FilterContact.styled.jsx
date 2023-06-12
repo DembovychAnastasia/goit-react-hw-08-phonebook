@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Label = styled.label`
   display: flex;
+  gap: 10px;
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -14,7 +15,7 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  max-width: 100%;
+  width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: none;
@@ -26,7 +27,7 @@ export const Input = styled.input`
   &:hover,
   &:focus {
     background-color: #fff;
-    color: #83bcbc;
+    color: #000000;
   }
   
   

@@ -1,60 +1,80 @@
 import styled from 'styled-components';
-import { Form as FormikForm, ErrorMessage as FormikErrorMessage } from 'formik';
 
-export const Form = styled(FormikForm)`
-  width: 400px;
-  padding: 8px;
-  border: 1px solid #2a2a2a;
-  display: flex;
+export const Section = styled.section`
+  max-width: 540px;
+`;
+
+export const Form = styled.form`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  /* display: flex; */
   flex-direction: column;
-  gap: 12px;
-  font-size: 22px;
-`;
-
-export const FormField = styled.label`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const ErrorMessage = styled(FormikErrorMessage)`
-  font-size: 12px;
-  color: red;
-`;
-
-export const Label = styled.div `
-  display: flex;
-  gap: 8px;
-  margin-left: 8px;
   align-items: center;
+  justify-content: space-between;
 
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0px;
+    /* margin: 0px 0px 10px; */
+  }
 
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px;
+    transition: all 0.5s ease 0s;
+    outline: none;
+  }
 `;
 
-export const Button = styled.button`
-    display: flex;
-    justify-Content: center;
-    align-items: center;
-    width: 50%;
-  padding: 10px 10px;
-  margin: 0 auto;
+export const FormList = styled.ul`
+  padding: 0;
+  /* display: flex; */
+`;
+
+export const FormListItem = styled.li`
+  margin-right: 10px;
+  p {
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+`;
+
+export const FormButton = styled.button`
+  display: block;
+  padding: 10px 20px;
+  margin: 0px auto;
   border: none;
   border-radius: 5px;
- 
-  /* color: #000; */
-  font-size: 16px;
-  font-weight: 700;
+  color: #fff;
+    background-color: #f50057;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1.2;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   cursor: pointer;
- 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease 0s;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
+  margin-top: 20px;
+
   &:hover,
   &:focus {
-    background-color: #fff;
-    color: #83bcbc;
+    background-color: #c51162;
+    color: #fff;
+    cursor: pointer;
   }
-  &:active {
-    scale: 0.95;
+
+  svg {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
   }
 `;

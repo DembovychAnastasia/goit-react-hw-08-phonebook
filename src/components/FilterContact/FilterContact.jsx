@@ -1,6 +1,6 @@
 import { Label, Input } from './FilterContact.styled';
 import { useDispatch } from 'react-redux';
-import { filteredContacts } from 'redux/contactSlice';
+import { setFilterContacts } from 'redux/contacts/filterSlice';
 
 
 
@@ -14,7 +14,7 @@ export const Filter = () => {
         // value={filter}
         // onChange={event => dispatch(setFilter(event.target.value.trim()))}
         onChange={event =>
-          dispatch(filteredContacts(event.target.value.trim()))
+          dispatch(setFilterContacts(event.target.value.trim()))
         }
       />
     </Label>

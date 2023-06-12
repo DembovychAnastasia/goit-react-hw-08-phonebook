@@ -1,47 +1,84 @@
 import { GlobalStyle } from "./GlobalStyle";
-import { Section } from "./Section/Section";
 import { Container } from "./Container";
-import {ContactForm} from "./FormContact/FormContact";
-import { ContactList } from "./ContactList/ContacttList";
-import { Filter } from "./FilterContact/FilterContact";
-import { fetchContacts } from 'redux/operations';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import React from 'react';
+import { lazy, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsRefreshing } from '../redux/auth/selectors';
+import { Dna } from 'react-loader-spinner';
 import { Toaster } from 'react-hot-toast';
-import { selectError, selectIsLoading } from 'redux/selectors';
 
+import { PrivateRoute } from './PrivateRoute';
+import { RestrictedRoute } from './RestrictedRoute';
+import { refreshUser } from '../redux/auth/operations';
+import Home from 'pages/Home';
+import Layout from './Layout/Layout';
+document.title = 'Phonebook';
+
+const RegisterPage = lazy(() => import('../pages/Register'));
+const LoginPage = lazy(() => import('../pages/Login'));
+const ContactsPage = lazy(() => import('../pages/Contacts'));
 
 export const App = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
+  const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
   return (
     
-    <Container
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-      }}
-    >
-      <GlobalStyle/>
-      <Section title="Phonebook">  
-      <ContactForm  />
-      </Section>
-      <Section title="Contacts">   
-      <Filter/>
-      {isLoading && !error && <b>Request in progress...</b>}
-      <ContactList/>
-      <Toaster/>
-        </Section> 
-   
+    <Container>
+{isRefreshing ? (
+        <Dna
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper"
+        />
+      ) : (
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route
+              path="register"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<RegisterPage />}
+                />
+              }
+            />
+            <Route
+              path="login"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<LoginPage />}
+                />
+              }
+            />
+            <Route
+              path="contacts"
+              element={
+                <PrivateRoute
+                  redirectTo="/login"
+                  component={<ContactsPage />}
+                />
+              }
+            />
+          </Route>
+        </Routes>
+      )}
+      
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
+         <GlobalStyle/>
     </Container>
   );
 }

@@ -1,30 +1,59 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Btn, Item, List } from './ContactList.styled'
-import { RiDeleteBin6Line } from 'react-icons/ri';
-import {deleteContact } from 'redux/operations';
-import { selectFilteredContacts } from 'redux/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/contacts/operations';
+import {
+  selectContacts,
+  selectContactsFilter,
+} from '../../redux/contacts/selectors';
+import { IoPersonOutline } from 'react-icons/io5';
+import { FaTrashAlt } from 'react-icons/fa';
+import {
+  ContactsList,
+  ContactItem,
+  ContactIcon,
+  ContactText,
+  ContactDelete,
+} from './ContactList.styled';
 
+// компонент використовую список контактів з стору через useSelector
+export function ContactList() {
+  const contacts = useSelector(selectContacts);
 
-export const ContactList = () => {
-  const contacts = useSelector(selectFilteredContacts);
+  const filterValue = useSelector(selectContactsFilter).toLowerCase();
+
+  // надсилання екшона видалення контакту за допомогою useDispatch
   const dispatch = useDispatch();
-    
-return (
-  
-        <List>
-          {contacts.map(({ id, name, number }) => {
-             return (
-            <Item key={id}>
-              
-                <p>{name}: </p>
-                <p>{number}</p>
-              <Btn type="button" onClick={() => dispatch(deleteContact(id))}>
-              <RiDeleteBin6Line size="16" />
-              </Btn>
-            </Item>
-             )
-          })}
-          
-        </List>
-      );
-};  
+
+  const handleDelete = evt => {
+    dispatch(deleteContact(evt.currentTarget.id));
+  };
+
+  const getVisibilityContacts = () => {
+    if (!filterValue || filterValue === '') {
+      return contacts;
+    }
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filterValue)
+    );
+  };
+
+  const visibilityContacts = getVisibilityContacts();
+
+  return (
+    <ContactsList>
+      {visibilityContacts.map(contact => (
+        <ContactItem key={contact.id}>
+          <ContactIcon>
+            <IoPersonOutline />
+          </ContactIcon>
+          <ContactText>
+            {contact.name}: <span>{contact.number}</span>
+          </ContactText>
+          <ContactDelete type="button" id={contact.id} onClick={handleDelete}>
+            <FaTrashAlt />
+          </ContactDelete>
+        </ContactItem>
+      ))}
+    </ContactsList>
+  );
+}

@@ -57,5 +57,4 @@ const contactsSlice = createSlice({
   },
 });
 
-export const { filteredContacts } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
