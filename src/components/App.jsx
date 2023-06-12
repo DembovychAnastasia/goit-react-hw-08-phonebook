@@ -1,8 +1,10 @@
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { GlobalStyle } from "./GlobalStyle";
 import { Container } from "./Container";
-import React from 'react';
+
 import { lazy, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsRefreshing } from '../redux/auth/selectors';
 import { Dna } from 'react-loader-spinner';
